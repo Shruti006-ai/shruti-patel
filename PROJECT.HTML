@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local market place-Buy & sell Item Locally</title>
+    <style>
+        /* CSS Styles */
+        :root {
+            --primary-color: #171717;
+            --secondary-color: #6a6d6f;
+            --light-color: #ecf0f1;
+            --dark-color: #6a6f74;
+            --success-color: #2ecc71;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .centerImage {
+            justify-content: flex-end;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--light-color);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid white;
+        }
+
+        .btn-outline:hover {
+            background-color: white;
+            color: var(--primary-color);
+        }
+
+        .hero {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .search-bar {
+            display: flex;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+        }
+
+        .search-bar button {
+            padding: 0 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+
+        .categories {
+            padding: 2rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--dark-color);
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .category-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-icon {
+            background-color: var(--light-color);
+            padding: 1.5rem;
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+
+        .category-info {
+            padding: 1rem;
+        }
+
+        .category-info h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .listings {
+            padding: 2rem 0;
+        }
+
+        .listing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .listing-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .listing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .listing-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .listing-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .listing-card:hover .listing-image img {
+            transform: scale(1.05);
+        }
+
+        .listing-info {
+            padding: 1.5rem;
+        }
+
+        .listing-info h3 {
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+
+        .listing-price {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .listing-location {
+            color: #7f8c8d;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .listing-location i {
+            margin-right: 0.5rem;
+        }
+
+        .listing-description {
+            margin-bottom: 1rem;
+            color: #555;
+        }
+
+        .listing-meta {
+            display: flex;
+
+            justify-content: space-between;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .post-ad-section {
+            background-color: var(--light-color);
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .post-ad-section h2 {
+            margin-bottom: 1.5rem;
+            color: var(--dark-color);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h2 {
+            color: var(--dark-color);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .image-upload {
+            border: 2px dashed #ddd;
+            padding: 1rem;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .image-upload:hover {
+            border-color: var(--primary-color);
+        }
+
+        .image-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .image-preview-item {
+            width: 80px;
+            height: 80px;
+            position: relative;
+        }
+
+        .image-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .remove-image {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: red;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        .footer {
+  background-color: #20232a;
+  color: #ffffff;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.footer-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.footer-logo {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.footer-links,
+.footer-socials {
+  margin: 15px 0;
+}
+
+.footer-links a,
+.footer-socials a {
+  color: #ffffff;
+  margin: 0 10px;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.footer-links a:hover,
+.footer-socials a:hover {
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  margin-top: 20px;
+  font-size: 12px;
+  color: #bbbbbb;
+}
+        
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav ul {
+                margin-top: 1rem;
+            }
+
+            nav ul li {
+                margin: 0 0.5rem;
+            }
+
+            .search-bar {
+                flex-direction: column;
+            }
+
+            .search-bar input {
+                border-radius: 4px;
+                margin-bottom: 0.5rem;
+            }
+
+            .search-bar button {
+                border-radius: 4px;
+                padding: 0.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <h1>
+                <div class="logo">
+                    <img src="1.jpg" class="centerImage">
+                </div>
+            </h1>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="#"> Home </a>
+                    </li>
+                    <li>
+                        <a href="#categories"> categories </a>
+                    </li>
+                    <li>
+                        <a href="#istings"> Listings </a>
+                    </li>
+                    <li>
+                        <a href="#" id="postAdBtn"> Post an Ad </a>
+                    </li>
+                </ul>
+            </nav>
+        </nav>
+    </header>
+    <section class="hero">
+        <div class="container">
+            <h1>Buy & Sell Items in your Local Community</h1>
+            <p>
+                "Find great details on new and used items near you,or sell your unwanted to local buyers"
+            </p>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search for items....">
+            <button>Search</button>
+        </div>
+    </section>
+    <section class="categories" id="categories">
+        <div class="container">
+            <h2 class="section-title">Browse categories</h2>
+            <div class="category-grid">
+                <div class="category-card">
+                    <div class="category-icon">📱</div>
+                    <div class="category-info">
+                        <h3><a href="1.html">Electronics</a></h3>
+                        <p>1,245 Listings</p>
+                    </div>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">🛋</div>
+                    <div class="category-info">
+                        <h3><a href="2.html">Furniture</a></h3>
+                        <p>876 Listings</p>
+                    </div>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">🚗</div>
+                    <div class="category-info">
+                        <h3><a href="3.html">Vehicles</a></h3>
+                        <p>542 Listings</p>
+                    </div>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">🏠</div>
+                    <div class="category-info">
+                        <h3><a href="4.html">Real Estate</a></h3>
+                        <p>321 Listings</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <section class="listings" id="listings">
+        <div class="container">
+            <h2 class="section-title">Recent Listings</h2>
+            <div class="listing-grid">
+                <div class="listing-card">
+                    <div class="listing-image">
+                        <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                            alt="MacBook Pro">
+                    </div>
+                    <div class="listing-info">
+                        <h3>MacBook Pro 2020</h3>
+                        <div class="listing-price">$1200</div>
+                        <div class="listing-location">
+                            <i>📍</i>
+                            " Downtown, 5 miles away "
+                        </div>
+                        <div class="listing-description">
+                            " Like new MacBook Pro13 with 16GB RAM and 512GB SSD. Includes original box and
+                            accessories."
+                        </div>
+                        <div class="listing-meta">
+                            <span>Posted 2 days ago</span>
+                            <a href="#" class="btn">Contact Seller</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="listing-card">
+                    <div class="listing-image">
+                        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                            alt="Sofa">
+                    </div>
+                    <div class="listing-info">
+                        <h3>Leather Sofa</h3>
+                        <div class="listing-price">$450</div>
+                        <div class="listing-location">
+                            <i>📍</i>
+                            " Westside, 3miles away "
+                        </div>
+                        <div class="listing-description">
+                            " Brown leather sofa in exellent condition. 3 seater with reclining function.Must pick up."
+                        </div>
+                        <div class="listing-meta">
+                            <span>Posted 1 week ago</span>
+                            <a href="#" class="btn">Contact Seller</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="listing-card">
+                    <div class="isting-image">
+                        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                            alt="Car">
+                    </div>
+                    <div class="listing-info">
+                        <h3>Honda Civic 2018</h3>
+                        <div class="listing-price">$1040</div>
+                        <div class="listing-location">
+                            <i>📍</i>
+                            " North District, 8 miles away "
+                        </div>
+                        <div class="listing-description">
+                            " Silver Honda Civil Ex with 28000 miles. exellent condition, no accident, all service
+                            records available. "
+                        </div>
+                        <div class="listing-meta">
+                            <span>Posted 3 days ago</span>
+                            <a href="#" class="btn">Contact Seller</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="post-ad-section">
+        <div class="container">
+            <h2>Have something to sell?</h2>
+            <a href="#" class="btn" id="postAdBtn2">Post Your Ad Now</a>
+        </div>
+    </section>
+    <div class="modal" id="postAdModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Post Your Ad</h2>
+                <button class="close-btn" id="closeModal">x</button>
+            </div>
+            <form id="adFrom">
+                <div class="form-group">
+                    <label for="adTitle">Ad Title</label>
+                    <input type="text" id="adTitle" placeholder="what are you selling?" required>
+                </div>
+                <div class="form-group">
+                    <label for="adCategory">categories</label>
+                    <select id="adCategory" required>
+                        <option value>Select a category</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="Furniture">Furniture</option>
+                        <option value="Vehicles">Vehicles</option>
+                        <option value="real-estate">Real Estate</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="adPrice">Price*</label>
+                    <input type="number" id="adPrice" placeholder="Enter price in USD" required>
+                </div>
+                <div class="form-group">
+                    <label for="adLocation">Location*</label>
+                    <input type="text" id="adLocation" placeholder="City or neighborhood" required>
+                </div>
+                <div class="form-group">
+                    <label for="adDescription">Description*</label>
+                    <textarea id="adDescription" placeholder="=Describe your item in details" required>
+                </textarea>
+                </div>
+                <div class="form-group">
+                    <label>Image (max 5)</label>
+                    <div< class="image-upload" id="imageUpload">
+                        <p>Click to upload images or drag and drop</p>
+                        <input type="file" id="fileInput" accept="image/*" multiple style="display: none;">
+                </div>
+                <div class="image-preview" id="image-preview"></div>
+        </div>
+        <div class="form-group">
+            <label for="sellerName">YOur Name*</label>
+            <input type="text" id="sellerName" required>
+        </div>
+        <div class="form-group">
+            <label for="sellerEmail">Email</label>
+        </div>
+        </form>
+    </div>
+    </div>
+    <div class="footer">
+        <h2>Question? call 000-000-000-000</h2>
+         <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-logo">SELL NOW</div>
+      <div class="footer-links">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Order Now</a>
+        <a href="#">Results</a>
+        <a href="#">Contact</a>
+      </div>
+      <div class="footer-socials">
+        <a href="#">Facebook</a>
+        <a href="#">Twitter</a>
+        <a href="#">Instagram</a>
+      </div>
+      <div class="footer-bottom">
+        &copy; All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+            
+        </div>
+    </div>
+</body>
+
+</html>
